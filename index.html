@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moisés ❤️ Ariana</title>
+<style>
+body{
+  margin:0;
+  height:100vh;
+  font-family:Arial, sans-serif;
+  overflow:hidden;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(-45deg,#ff4e73,#ff8fa3,#ff2e63,#ff758f);
+  background-size:400% 400%;
+  animation:fondo 8s ease infinite;
+  text-align:center;
+}
+@keyframes fondo{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+.container{
+  background:rgba(0,0,0,0.8);
+  padding:50px 30px 80px 30px;
+  border-radius:25px;
+  width:90%;
+  max-width:500px;
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:70vh; 
+  overflow:hidden;
+}
+#pregunta{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+button{
+  padding:12px 25px;
+  border:none;
+  border-radius:30px;
+  font-size:18px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+  position:relative;
+  margin:10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+#yes{ background:#ff0054; color:white;}
+#no{ background:white; color:#ff0054;}
+#musicButtons button{
+  display:inline-block;
+  margin:0 20px;
+  font-size:32px;
+  border-radius:50%;
+  width:60px;
+  height:60px;
+}
+#disco{
+  position:relative;
+  width:100%;
+  height:200px;
+  margin-top:20px;
+}
+#discoImg{
+  width:180px;
+  height:180px;
+  object-fit:cover;
+  border-radius:50%;
+  position:absolute;
+  top:0;
+  display:none;
+}
+.girar{
+  animation:spin 4s linear infinite;
+  display:block;
+}
+@keyframes spin{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
+#mensajeRomantico{
+  margin-top:20px;
+  font-size:18px;
+  line-height:1.6;
+  opacity:0;
+  transition:opacity 1.2s ease-in-out;
+  min-height:60px;
+  position:relative;
+  top:0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+.corazon{
+  position:absolute;
+  font-size:24px;
+  animation:caer linear;
+  color:pink;
+  z-index:0;
+}
+@keyframes caer{
+  0%{top:-50px; opacity:1;}
+  100%{top:100vh; opacity:0;}
+}
+@keyframes temblar {
+  0% { transform: translate(0px,0px); }
+  20% { transform: translate(-5px,5px); }
+  40% { transform: translate(5px,-5px); }
+  60% { transform: translate(-5px,5px); }
+  80% { transform: translate(5px,-5px); }
+  100% { transform: translate(0px,0px); }
+}
+.temblando {
+  animation: temblar 0.5s;
+}
+</style>
+</head>
+<body>
+<div class="container" id="box">
+<!-- Primera parte: pregunta y botones SÍ/NO centrados más abajo -->
+<div id="primeraParte" style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start; height:80vh; gap:20px; padding-top:250px;">
+  <h2 id="pregunta">Ariana… ¿Tú me amas? 🥺💘</h2>
+
+  <div id="botonesIniciales" style="display:flex; justify-content:center; gap:30px;">
+    <button id="yes">💗 SÍ 💗</button>
+    <button id="no">No</button>
+  </div>
+
+  <div id="frasesNo" style="margin-top:10px; min-height:30px;"></div>
+
+  <!-- Imagen del perrito más grande -->
+  <div id="imagenPerrito" style="margin-top:10px; position:relative; top:0;">
+    <img src="Perrito.jpg" alt="Perrito" style="width:200px; border-radius:15px;">
+  </div>
+</div>
+
+<!-- Segunda parte: música y frases -->
+<div id="elegirMusica" style="display:none; margin-top:30px;">
+  <h3>Elige uno ✨🎵💖</h3>
+  <div id="musicButtons">
+    <button id="boton1">🎵💖</button>
+    <button id="boton2">🎶❤️</button>
+  </div>
+</div>
+
+<div id="disco"><img id="discoImg" class="girar"></div>
+<div id="mensajeRomantico"></div>
+</div>
+
+<audio id="audio1" src="dicen.mp3"></audio>
+<audio id="audio2" src="reina.mp3"></audio>
+
+<script>
+let yesWidth=80; 
+let yesHeight=40; 
+let noWidth=80;  
+let noHeight=40; 
+let noClicks=0;
+
+const yesBtn=document.getElementById("yes");
+const noBtn=document.getElementById("no");
+const frasesNo=document.getElementById("frasesNo");
+const box=document.getElementById("box");
+const discoImg=document.getElementById("discoImg");
+const mensajeRomantico=document.getElementById("mensajeRomantico");
+const elegirMusica=document.getElementById("elegirMusica");
+const boton1=document.getElementById("boton1");
+const boton2=document.getElementById("boton2");
+const audio1=document.getElementById("audio1");
+const audio2=document.getElementById("audio2");
+const perritoDiv=document.getElementById("imagenPerrito");
+
+const frases=["😢 ¿Estás segura?","🥺 Eso dolió...","💔 Mi corazón sintió eso...","🔥 El universo sabe que sí me amas..."];
+discoImg.style.display="none"; 
+
+noBtn.addEventListener("click",()=>{
+  if(noClicks<frases.length){
+    frasesNo.innerHTML = frases[noClicks];
+  }else{
+    frasesNo.innerHTML = "💞 Ya no puedes escapar 😏";
+  }
+  noClicks++;
+
+  // Crecimiento SÍ más dramático
+  yesWidth *= 1.4; 
+  yesHeight *= 1.4;
+  yesBtn.style.width = yesWidth + "px";
+  yesBtn.style.height = yesHeight + "px";
+
+  // Achicamiento NO
+  noWidth *= 0.8; 
+  noHeight *= 0.8;
+  if(noWidth<30) noWidth=30;
+  if(noHeight<20) noHeight=20;
+  noBtn.style.width = noWidth + "px";
+  noBtn.style.height = noHeight + "px";
+
+  // Imagen del perrito baja suavemente
+  let topActualImg = parseInt(window.getComputedStyle(perritoDiv).top) || 0;
+  perritoDiv.style.top = (topActualImg + 10) + "px";
+
+  // Mensaje no se tapa
+  let topActual = parseInt(window.getComputedStyle(mensajeRomantico).top) || 0;
+  mensajeRomantico.style.top = (topActual + 5) + "px"; 
+
+  // Vibración real más intensa
+  if(navigator.vibrate){
+    navigator.vibrate([150,50,150,50,150]); 
+  }
+
+  // Vibración visual (temblar)
+  box.classList.add("temblando");
+  setTimeout(()=> box.classList.remove("temblando"), 500);
+});
+
+yesBtn.addEventListener("click",()=>{
+  document.getElementById("primeraParte").style.display="none";
+  elegirMusica.style.display="block";
+});
+
+function escribirTexto(elemento, texto, callback){
+  elemento.innerHTML = "";
+  const caracteres = [...texto];
+  let i = 0;
+  function escribir(){
+    if(i < caracteres.length){
+      elemento.innerHTML += caracteres[i];
+      i++;
+      setTimeout(escribir, 60);
+    } else if(callback){
+      callback();
+    }
+  }
+  escribir();
+}
+
+function reproducirMusica(audio, imgSrc, posicion){
+  audio1.pause(); audio2.pause();
+  if(audio===audio1) audio.currentTime=149;
+  else audio.currentTime=1;
+  audio.play();
+  
+  discoImg.src=imgSrc;
+  discoImg.style.display="block";
+
+  if(posicion==="izquierda") discoImg.style.left="10%";
+  else discoImg.style.left="35%";
+
+  const mensajes=[
+    "Te amo mucho mi amor 💖 y sé que a veces la cago con mi comportamiento...",
+    "A veces ni con las palabras me sé expresar muy bien amor 🥺 pero yo de verdad te amo mi reina 👑💘",
+    "Per sempre, io e te. Ti amo ❤️",
+    "Ti amo così tanto, amore mio 💖 e so che a volte sbaglio qualcosa con il mio comportamento...",
+    "A volte non riesco nemmeno ad esprimermi bene con le parole, amore mio 🥺 ma ti amo davvero, mia regina   ✨💖",
+    "Per sempre, tu ed io. Ti amo. ❤️"
+  ];
+
+  let indice = 0;
+  function mostrarSiguienteMensaje(){
+    mensajeRomantico.style.opacity = 0;
+    setTimeout(()=>{
+      escribirTexto(mensajeRomantico, mensajes[indice]);
+      mensajeRomantico.style.opacity = 1;
+      indice = (indice + 1) % mensajes.length;
+    },1200);
+  }
+
+  mostrarSiguienteMensaje();
+  clearInterval(window.mensajeInterval);
+  window.mensajeInterval = setInterval(mostrarSiguienteMensaje, 7000);
+}
+
+boton1.addEventListener("click",()=>{ reproducirMusica(audio1,"dicen.jpg","izquierda"); });
+boton2.addEventListener("click",()=>{ reproducirMusica(audio2,"reina.jpg","derecha"); });
+
+function crearCorazones(){
+  for(let i=0;i<3;i++){
+    let c=document.createElement("div");
+    c.classList.add("corazon");
+    c.style.left=Math.random()*100+"%";
+    c.style.animationDuration=(3+Math.random()*2)+"s";
+    c.innerHTML="❤️";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
+  }
+  setTimeout(crearCorazones,500);
+}
+crearCorazones();
+</script>
+</body>
+</html>
